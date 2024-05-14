@@ -1,0 +1,37 @@
+services:
+  api:
+    container_name: fruveg-api
+    build: ./api
+    environment:
+      POSTGRES_DB: fruveg
+      POSTGRES_USER: postgres
+      POSTGRES_PWD: postgres
+      POSTGRES_HOST: 192.168.1.177
+      CLIENT_URL: https://fruveg-client.5dev.kz
+      ADMIN_URL: https://fruveg-admin.5dev.kz
+      POSTGRES_PORT: 5440
+    ports:
+      - "3010:3000"
+  client:
+    container_name: fruveg-client
+    build: ./client
+    ports:
+      - "3011:3000"
+  admin:
+    container_name: fruveg-admin
+    build: ./admin
+    ports:
+      - "3012:3000"
+  db:
+    container_name: fruveg-db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: fruveg
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_PORT: 5440
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5440:5432"
